@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
+const testRoutes = require('./routes/test.routes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,15 +37,8 @@ pool.getConnection()
 // Make pool available to routes
 app.locals.db = pool;
 
-// Test route
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Backend is running!', timestamp: new Date() });
-});
-
-// Routes will be added here
-// app.use('/api/auth', require('./routes/auth.routes'));
-// app.use('/api/amenities', require('./routes/amenities.routes'));
-// etc...
+// Routes
+app.use('/api', testRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
